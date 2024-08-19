@@ -3,6 +3,8 @@ const router = express.Router();
 const app= express();
 const mongoose= require ("mongoose");
 const Listing= require("./models/listings.js");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -34,6 +36,10 @@ app.use(express.static(path.join(__dirname,"/public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", userRouter);
+
+const store = MongoStore.create({
+  mongoUrl: dburl,
+});
 
 // Index Route
 app.get("/listings", async (req,res)=>{
